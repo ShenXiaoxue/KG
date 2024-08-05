@@ -1,0 +1,8 @@
+# -*- coding: utf-8 -*-
+"""
+
+@author: Xiaoxue Shen, the Alan Turing Institute
+
+This is to generate the .msh file from the .stl file
+
+"""

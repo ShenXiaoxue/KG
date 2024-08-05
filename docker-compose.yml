@@ -3,10 +3,16 @@ services:
   web:
     build: .
     restart: always
-    expose:
-      - "5000"
+    #ports:
+    #  - "5000:5000"
+    #expose:
+    #  - "5000"
     networks:
       mynetwork:
+    environment:
+      - PYTHONUNBUFFERED=1
+    #depends_on:
+    #  - neo4j
   nginx:
     image: nginx:latest
     restart: always
@@ -18,6 +24,64 @@ services:
       - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf
     depends_on:
       - web
+  # neo4j:
+  #   image: neo4j:latest
+  #   #restart: always
+  #   container_name: neo4j
+  #   ports:
+  #     - "7475:7474"
+  #     - "7688:7687"
+  #   environment:
+  #      NEO4J_AUTH: neo4j/12345678
+  #   networks:
+  #     mynetwork:
+    # volumes:
+    #   - neo4j_data:/data
+    #   - neo4j_logs:/logs
+    #   - neo4j_import:/var/lib/neo4j/import
+    #   - neo4j_plugins:/plugins
+    #command: gunicorn --bind 0.0.0.0:5000 "digitaltwin:create_app()"
+    #restart: unless-stopped
+  # blender:
+  #   image: lscr.io/linuxserver/blender:latest
+  #   container_name: blender
+  #   security_opt:
+  #     - seccomp:unconfined #optional
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Etc/UTC
+  #     - SUBFOLDER=/ #optional
+  #   #volumes:
+  #   #  - /path/to/config:/config
+  #   ports:
+  #     - 3000:3000
+  #     - 3001:3001
+  #   restart: unless-stopped
+  fenicsx:
+    image: dolfinx/dolfinx:stable
+    container_name: fenicsx
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./digitaltwin/library/fenicsx/shared:/root/shared
+    ports:
+      - "3344:3344"
+    networks:
+      mynetwork:
+    depends_on:
+      - web
+    command: /bin/sh -c "sleep 5 && python3 /root/shared/three_floor_FEM_ModalAnalysis.py"
+    restart: unless-stopped
+  
+
+
+# volumes:
+#   neo4j_data:
+#   neo4j_logs:
+#   neo4j_import:
+#   neo4j_plugins:
+
 
 networks:
   mynetwork:

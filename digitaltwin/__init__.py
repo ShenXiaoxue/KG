@@ -5,6 +5,7 @@ front-end functions, class defintions, and various "app" related functions/varia
 from flask_bootstrap import Bootstrap5
 from flask import Flask
 
+
 def create_app(test_config = None):
     app = Flask(__name__)
     bootstrap = Bootstrap5(app)
