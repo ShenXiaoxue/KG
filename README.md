@@ -2,7 +2,33 @@
 A knowledge graph powered digital twin of structural dynamic systems. This consists of several components: mathmatical modelling (ODE), geometric modelling (python scripts for Blender), meshing (Gmsh), Finite Element Analysis (FEniCSx), and Bayesian inference of model parameters. The knowledge graph is built using Neo4j. These serve as "agents" and are containerised in Docker.
 
 ## Deployment Instruction
+- To run the DTOP system, first create a virtual environment in the main folder
+
+For linux:
+```bash
+python3 -m venv env
+```
+- Then enter the environment
+
+For linux:
+```bash
+source env/bin/activate
+```
+- Make sure you have Docker and Docker compose
+
+- Run docker compose
+```bash
+sudo chmod 777 /var/run/docker.sock
+docker compose build
+docker compose up
+```
+
+## The previous deployment instructure
 There are two main methods for deploying this app
+
+
+
+
 
 ### Gunicorn/Waitress with Virtual Environment
 Gunicorn is not available on windows platforms due to dependcy on the FCNTL module, only Unix-based systems. Waitress is an alternative with similar usage.
