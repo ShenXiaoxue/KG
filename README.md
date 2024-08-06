@@ -2,6 +2,10 @@
 A knowledge graph powered digital twin of structural dynamic systems. This consists of several components: mathmatical modelling (ODE), geometric modelling (python scripts for Blender), meshing (Gmsh), Finite Element Analysis (FEniCSx), and Bayesian inference of model parameters. The knowledge graph is built using Neo4j. These serve as "agents" and are containerised in Docker.
 
 ## Deployment Instruction
+- Before running the project, make sure both the Docker and Docker Compose have been installed.
+
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04
+
 - To run the DTOP system, first create a virtual environment in the main folder
 
 For linux:
