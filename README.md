@@ -22,7 +22,7 @@ sudo chmod 777 /var/run/docker.sock
 docker compose build
 docker compose up
 ```
-- Then, in a web browser, go to either http://localhost:7474/ to access the knowledge graph
+- Then, in a web browser, go to either http://localhost:7474/ to access the knowledge graph.
 
 
 

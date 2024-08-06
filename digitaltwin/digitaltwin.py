@@ -13,6 +13,7 @@ from .library.ODE import three_dof
 from .library.Geometrical import three_floor_blender
 from .library.Gmsh import three_floor_gmsh
 from .library.Gmsh2XDMF import Gmsh2XDMF
+from .library.UQ import three_floor_Bayesian
 
 
 import numpy as np
@@ -32,7 +33,8 @@ def page_not_found(error):
 
 for i in range(0, 10):
     print("Testing..")
-          
+
+"""
 # Initialise the knowledge graph
 kg_ = buildgraph.knowledgeGraph()
 
@@ -108,6 +110,12 @@ kg_.Gmsh2XDMF()
 
 print('\n' * 5)
 print("Gmsh2XDMF agent task finished.")
+"""
+################################################
+# Bayesian inference
+print('\n' * 5)
+print("Run the Bayesian agent..")
+three_floor_Bayesian.Bayesian_output()
 
 ################################################
 # FEM
