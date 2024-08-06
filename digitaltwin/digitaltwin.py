@@ -34,7 +34,7 @@ def page_not_found(error):
 for i in range(0, 10):
     print("Testing..")
 
-"""
+
 # Initialise the knowledge graph
 kg_ = buildgraph.knowledgeGraph()
 
@@ -110,7 +110,7 @@ kg_.Gmsh2XDMF()
 
 print('\n' * 5)
 print("Gmsh2XDMF agent task finished.")
-"""
+
 ################################################
 # Bayesian inference
 print('\n' * 5)
