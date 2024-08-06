@@ -2,7 +2,7 @@ version: '3'
 services:
   web:
     build: .
-    restart: no #unless-stopped  #always   - may change this to "always" when running
+    restart: unless-stopped  #always   - may change this to "always" when running
     #ports:
     #  - "5000:5000"
     expose:
