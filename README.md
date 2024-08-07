@@ -26,7 +26,9 @@ sudo chmod 777 /var/run/docker.sock
 docker compose build
 docker compose up
 ```
-- Then, in a web browser, go to either http://localhost:7474/ to access the knowledge graph.
+- Then, in a web browser, go to either http://localhost:7475/ to access the knowledge graph. Choose the Connect URL "neo4j://" and change "localhost:7687" to "localhost:7688".
+Username: neo4j
+Password: 12345678
 
 
 
