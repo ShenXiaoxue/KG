@@ -31,10 +31,6 @@ def page_not_found(error):
     return render_template('page_not_found.html'), 404
 
 
-for i in range(0, 10):
-    print("Testing..")
-
-
 # Initialise the knowledge graph
 kg_ = buildgraph.knowledgeGraph()
 
@@ -80,7 +76,7 @@ print(parameters_Geometric, geometric_input)
 kg_.Geometric()
 ################################################
 # Gmsh
-three_floor_gmsh.Gmsh_output()
+
 parameters_Gmsh = ["angle_surface_dection", "mesh_size", "Geometry_tolerance_boolean", "curve_angle"]
 Gmsh_input_ = three_floor_gmsh.Gmsh_input(parameters_Gmsh)
 #print(parameters_Gmsh, Gmsh_input_)
@@ -90,7 +86,7 @@ print("Received meshing parameters, run the Gmsh agent..")
 time.sleep(5)
 
 
-#three_floor_gmsh.Gmsh_output(Gmsh_input_)
+three_floor_gmsh.Gmsh_output(Gmsh_input_)
 
 print('\n' * 5)
 print("Gmsh agent task finished.")
@@ -118,13 +114,7 @@ print("Run the Bayesian agent..")
 three_floor_Bayesian.Bayesian_output()
 
 ################################################
-# FEM
-#import os
-#os.system('sh ./digitaltwin/library/sleep.sh')
-#subprocess.call("./digitaltwin/library/sleep.sh", shell=True)
-#three_floor_FEM_ModalAnalysis.FEM_output()
 
-#kg_.FEM_()
 
 
 

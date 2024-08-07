@@ -84,7 +84,7 @@ def Extract_ODE_input(parameter):
     #print(driver)
     try:
         query = query_(parameter)
-        with GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "12345678")) as driver:
+        with GraphDatabase.driver("bolt://neo4j:7687", auth=("neo4j", "12345678")) as driver:
             records, _, _ = driver.execute_query(query)
             print(records)
             for record in records:

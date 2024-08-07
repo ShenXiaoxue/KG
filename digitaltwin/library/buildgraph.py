@@ -37,10 +37,11 @@ import os.path
 import re
 
 
+
 class Database:
     def __init__(self, uri, user, password):
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
-        
+
     def close(self):
         self.driver.close()
 
@@ -53,8 +54,12 @@ class Database:
         tx.run(query)
         
     def add_product(self, product):
+        #print("all good 2")
         with self.driver.session() as session:
             return session.execute_write(product.create_node)
+            #return session.write_transaction(product.create_node)
+            #print("all good 3")
+        
 
     def add_geometric(self, geometric):
         with self.driver.session() as session:
@@ -429,7 +434,8 @@ def list_files_in_folder(folder_path):
 
 class knowledgeGraph:
     def __init__(self):
-        self.db = Database("bolt://localhost:7687", "neo4j", "12345678")
+        self.db = Database("bolt://neo4j:7687", "neo4j", "12345678")
+        ###############################
         self.db.deleteAll()
         self.product_3storyFloor = Product("Three_story_Floor")
         self.db.add_product(self.product_3storyFloor)
@@ -796,141 +802,6 @@ class knowledgeGraph:
         
 
     
-def Initialise():
-    #
-#if __name__ == "__main__":
-    db = Database("bolt://localhost:7687", "neo4j", "12345678")
-    data_path_ = "/home/shen/KG/dtop/Data/"
-    print(data_path_)
-    #e = Entities()
-    db.deleteAll()
-    product_3storyFloor = Product("Three_story_Floor")
-    db.add_product(product_3storyFloor)
-    ####
-    # geometric_ = Geometric("Geometric")
-    # db.add_geometric(geometric_)
-    # db.add_product2geometric(Product2Geometric(product_3storyFloor, geometric_))
-    ####
-    # material_aluminum = Material("al6082")
-    # db.add_material(material_aluminum)
-    # ####
-    # aluminum_density = MaterialProperty("density")
-    # aluminum_youngsmodulus = MaterialProperty("youngsmodulus")
-    # aluminum_possionsratio = MaterialProperty("possionsratio")
-    # db.add_material_property(aluminum_density)
-    # db.add_material_property(aluminum_youngsmodulus)
-    # db.add_material_property(aluminum_possionsratio)
-    # ####
-    # aluminum_density_value = PropertyValue("2700")
-    # aluminum_density_unit = PropertyUnit("kg/m3")
-    # db.add_property_value(aluminum_density_value)
-    # db.add_property_unit(aluminum_density_unit)
-    # ####
-    # aluminum_E_value = PropertyValue("70e9")
-    # aluminum_E_unit = PropertyUnit("N/m2")
-    # db.add_property_value(aluminum_E_value)
-    # db.add_property_unit(aluminum_E_unit)
-    # ####
-    # aluminum_mu_value = PropertyValue("0.3")
-    # aluminum_mu_unit = PropertyUnit("-")
-    # db.add_property_value(aluminum_mu_value)
-    # db.add_property_unit(aluminum_mu_unit)
-    # #########
-    # db.add_property2value(Property2Value(aluminum_density, aluminum_density_value))
-    # db.add_property2unit(Property2Unit(aluminum_density, aluminum_density_unit))
-    # #
-    # db.add_property2value(Property2Value(aluminum_youngsmodulus, aluminum_E_value))
-    # db.add_property2unit(Property2Unit(aluminum_youngsmodulus, aluminum_E_unit))
-    # #
-    # db.add_property2value(Property2Value(aluminum_possionsratio, aluminum_mu_value))
-    # db.add_property2unit(Property2Unit(aluminum_possionsratio, aluminum_mu_unit))
-    # ####
-    # db.add_material2property(Material2Property(material_aluminum, aluminum_density, "has_density"))
-    # db.add_material2property(Material2Property(material_aluminum, aluminum_youngsmodulus, "has_E"))
-    # db.add_material2property(Material2Property(material_aluminum, aluminum_possionsratio, "has_mu"))
-    # ####
-    # for j in range(0, 3):
-    #     # floor
-    #     component_floor = Component("Floor_"+str(j+1))
-    #     db.add_component(component_floor)
-    #     db.add_geometric2component(Geometric2Component(geometric_, component_floor))
-    #     #db.add_component2material(Component2Material(component_floor, material_aluminum))
-    
-    # for i in range(0, 4):
-    #     component_pillar = Component("Pillar_"+str(i+1))
-    #     db.add_component(component_pillar)
-    #     db.add_geometric2component(Geometric2Component(geometric_, component_pillar))
-    #     #db.add_component2material(Component2Material(component_pillar, material_aluminum))
-        
-    #     for j in range(0, 3):
-    #         component_block = Component("Block_" + str(i) + "_" + str(j))
-    #         db.add_component(component_block)
-    #         db.add_geometric2component(Geometric2Component(geometric_, component_block))
-    #         #db.add_component2material(Component2Material(component_block, material_aluminum))
-    #         #
-    #         db.add_component2component(Component2Component(component_pillar, component_block, "adjacent"))  # pillar and 3 blocks
-
-
-    # Add analytical parameters
-    analy_model = Analytical("ODE_MassSpringDamper")
-    db.add_analytical(analy_model)
-    # product -> analytical
-    db.add_product2analytical(Product2Analytical(product_3storyFloor, analy_model))
-    # analytical -> input
-    analyticalinput_ = AnalyticalInput("Parameters")
-    db.add_analyticalinput(analyticalinput_)
-    db.add_analytical2input(Analytical2Input(analy_model, analyticalinput_))
-    # analytical-> parameters
-    analy_m, analy_k, analy_c = ["m1", "m2", "m3"], ["k1", "k2", "k3"], ["c1", "c2", "c3"]
-    m, k, c = [5.0394, 4.9919, 4.9693], [34958.3691, 43195.1237, 43295.9086], [7.8963, 4.0129, 5.4905]
-    unit_ = ["kg", "N/m", "Ns/m"]
-    analy_m_unit = ParameterUnit(unit_[0])
-    analy_k_unit = ParameterUnit(unit_[1])
-    analy_c_unit = ParameterUnit(unit_[2])
-    db.add_parameter_unit(analy_m_unit)
-    db.add_parameter_unit(analy_k_unit)
-    db.add_parameter_unit(analy_c_unit)
-    #
-    for i in range(0, 3):
-        analy_m_ = Parameter(analy_m[i])
-        analy_k_ = Parameter(analy_k[i])
-        analy_c_ = Parameter(analy_c[i])
-        db.add_parameter(analy_m_)
-        db.add_parameter(analy_k_)
-        db.add_parameter(analy_c_)
-        db.add_analyticalinput2parameter(AnalyticalInput2Parameter(analyticalinput_, analy_m_))
-        db.add_analyticalinput2parameter(AnalyticalInput2Parameter(analyticalinput_, analy_k_))
-        db.add_analyticalinput2parameter(AnalyticalInput2Parameter(analyticalinput_, analy_c_))
-        analy_m_value = ParameterValue(str(m[i]))
-        analy_k_value = ParameterValue(str(k[i]))
-        analy_c_value = ParameterValue(str(c[i]))
-        db.add_parameter_value(analy_m_value)
-        db.add_parameter_value(analy_k_value)
-        db.add_parameter_value(analy_c_value)
-        #
-        db.add_parameter2value(Parameter2Value(analy_m_, analy_m_value))
-        db.add_parameter2value(Parameter2Value(analy_k_, analy_k_value))
-        db.add_parameter2value(Parameter2Value(analy_c_, analy_c_value))
-        #
-        db.add_parameter2unit(Parameter2Unit(analy_m_, analy_m_unit))
-        db.add_parameter2unit(Parameter2Unit(analy_k_, analy_k_unit))
-        db.add_parameter2unit(Parameter2Unit(analy_c_, analy_c_unit))
-
-    # # analytical output
-    # analyoutput_ = AnalyticalOutput("Results")
-    # db.add_analyticaloutput(analyoutput_)
-    # db.add_analytical2output(Analytical2Output(analy_model, analyoutput_))
-    # #
-    # analyoutputdata_ = AnalyticalData("Displacement", data_path_)
-    # db.add_analyticaldata(analyoutputdata_)
-    # db.add_analyticaloutput2data(AnalyticalOutput2Data(analyoutput_, analyoutputdata_))
-
-
-
-
-
-
-    
     
 
     
@@ -1032,17 +903,6 @@ def Initialise():
 """
 
 
-
-
-            
-
-            
-    # for i in range(0, 3):
-    #     for j in range(0, 4):
-    #         db.com2com("Floor_"+str(i+1), "Pillar_"+str(j+1), "adjacent")
-
-
-    
 
     
 

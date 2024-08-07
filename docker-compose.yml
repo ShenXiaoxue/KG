@@ -13,8 +13,10 @@ services:
       - PYTHONUNBUFFERED=1
     tty: true
     stdin_open: true
-    #depends_on:
-    #  - neo4j
+    links:
+      - neo4j
+    depends_on:
+      - neo4j
     logging:
       driver: "json-file"
       options:
@@ -31,19 +33,19 @@ services:
       - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf
     depends_on:
       - web
-  # neo4j:
-  #   image: neo4j:latest
-  #   #restart: always
-  #   container_name: neo4j
-  #   ports:
-  #     - "7475:7474"
-  #     - "7688:7687"
-  #   environment:
-  #      NEO4J_AUTH: neo4j/12345678
-  #   networks:
-  #     mynetwork:
-    # volumes:
-    #   - neo4j_data:/data
+  neo4j:
+    image: neo4j:latest    #  4.1.13  
+    restart: always
+    container_name: neo4j
+    ports:
+      - "7475:7474"
+      - "7688:7687"
+    environment:
+       NEO4J_AUTH: neo4j/12345678
+    networks:
+      mynetwork:
+    volumes:
+      - $HOME/neo4j/data:/data
     #   - neo4j_logs:/logs
     #   - neo4j_import:/var/lib/neo4j/import
     #   - neo4j_plugins:/plugins
@@ -76,9 +78,9 @@ services:
       - "3344:3344"
     networks:
       mynetwork:
-    #depends_on:
-    #  - web
-    command: /bin/sh -c "sleep 5 && python3 /root/shared/three_floor_FEM_ModalAnalysis.py"
+    depends_on:
+      - web
+    command: /bin/sh -c "sleep 60 && python3 /root/shared/three_floor_FEM_ModalAnalysis.py"
     restart: no # unless-stopped
   
 
@@ -92,6 +94,6 @@ services:
 
 networks:
   mynetwork:
-    ipam:
-      config:
-        - subnet: 10.127.1.0/24
+#    ipam:
+#      config:
+#        - subnet: 10.127.1.0/24

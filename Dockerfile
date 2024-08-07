@@ -34,5 +34,5 @@ COPY . .
 EXPOSE 5000
 
 # Start the Gunicorn server
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "digitaltwin:create_app()"]
-#CMD ["gunicorn --bind=0.0.0.0:5000 "digitaltwin:create_app()"]
+#CMD ["gunicorn", "--bind", "0.0.0.0:5000", "digitaltwin:create_app()"]
+CMD sleep 20 && gunicorn --bind=0.0.0.0:5000 "digitaltwin:create_app()"
